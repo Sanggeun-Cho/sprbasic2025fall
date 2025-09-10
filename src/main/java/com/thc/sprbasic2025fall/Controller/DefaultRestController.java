@@ -21,5 +21,13 @@ public class DefaultRestController {
     }
 
     @RequestMapping("/api/multiple")
-    public Map<String, Object>
+    public Map<String, Object> multiple(int a, int b){
+        int result = a * b;
+        Map<String, Object> map = new HashMap<>();
+
+        map.put("resultCode", 200);
+        map.put("result", result);
+
+        return map;
+    }
 }
