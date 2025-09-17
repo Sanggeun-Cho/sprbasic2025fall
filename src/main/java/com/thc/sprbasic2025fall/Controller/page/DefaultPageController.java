@@ -1,4 +1,4 @@
-package com.thc.sprbasic2025fall.Controller;
+package com.thc.sprbasic2025fall.Controller.page;
 
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 // 스프링부트에게 컨트롤러임을 알리기 위한 어노테이션 -> 알아서 에러 등도 잡아줌
 @Controller
+@RequestMapping("")
 
 public class DefaultPageController {
     // 페이지 컨트롤러 예시
