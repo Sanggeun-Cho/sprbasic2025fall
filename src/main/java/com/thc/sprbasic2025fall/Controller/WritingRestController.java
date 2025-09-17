@@ -42,8 +42,8 @@ public class WritingRestController {
     @GetMapping("/list")
     public Map<String, Object> list() {
         Map<String, Object> map_return = new HashMap<>();
-        map_return.put("data", list);
         map_return.put("resultCode", 200);
+        map_return.put("data", list);
         return map_return;
     }
 
