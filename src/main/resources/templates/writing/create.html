@@ -19,13 +19,12 @@ Create!!
     alert("등록이 시작됩니다!");
 
     $.ajax({
-      url: '/api/writing/create',
-      method: 'GET',
-      data : {
-        title : $("#input_title").val() // value를 찾아달라
-        , content : $("#input_content").val()
-      },
-      dataType : "json",
+      url: '/api/writing',
+      method: 'POST',
+      data : JSON.stringify({
+          title : $("#input_title").val() // value를 찾아달라
+          , content : $("#input_content").val()
+      }),
       contentType:"application/json",
       success: function (data, status, xhr) {
         alert("data : : " + JSON.stringify(data));

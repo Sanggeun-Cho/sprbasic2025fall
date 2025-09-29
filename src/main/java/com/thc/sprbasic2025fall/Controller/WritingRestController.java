@@ -1,9 +1,7 @@
 package com.thc.sprbasic2025fall.Controller;
 
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RequestParam;
-import org.springframework.web.bind.annotation.RestController;
+import com.thc.sprbasic2025fall.service.WritingService;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.ArrayList;
 import java.util.HashMap;
@@ -14,57 +12,35 @@ import java.util.Map;
 @RestController
 
 public class WritingRestController {
+    WritingService writingService;
+    // 생성자 방식
+    WritingRestController(WritingService writingService) {
+        this.writingService = writingService;
+    }
 
-    List<Map<String, Object>> list = new ArrayList<>();
-    int order = 0;
-
-    @GetMapping("/create")
-    public Map<String, Object> create(@RequestParam Map<String, Object> params) {
-        String title = (String) params.get("title");
-        String content = (String) params.get("content");
-        int id = ++order;
-
-        Map<String, Object> map_writing = new HashMap<>();
-        map_writing.put("id", id);
-        map_writing.put("title", title);
-        map_writing.put("content", content);
-
-        list.add(map_writing);
-
-        Map<String, Object> map_return = new HashMap<>();
-
-        map_return.put("resultCode", 200);
-        map_return.put("id", id);
-
-        return map_return;
+    @PostMapping("")
+    public Map<String, Object> create(@RequestBody Map<String, Object> params) {
+        return writingService.create(params);
     }
 
     @GetMapping("/list")
     public Map<String, Object> list() {
-        Map<String, Object> map_return = new HashMap<>();
-        map_return.put("resultCode", 200);
-        map_return.put("data", list);
-        return map_return;
+        return writingService.list();
     }
 
-    public Map<String, Object> getData(int id){
-        Map<String, Object> map_writing = new HashMap<>();
-
-        for(Map<String, Object> each : list){
-            if(each.get("id").equals(id)){
-                map_writing = each;
-                break;
-            }
-        }
-
-        return map_writing;
-    }
-
-    @GetMapping("/detail")
+    @GetMapping("")
     public Map<String, Object> detail(int id){
-        Map<String, Object> map_return = new HashMap<>();
-        map_return.put("data", getData(id));
-        map_return.put("resultCode", 200);
-        return map_return;
+        return writingService.detail(id);
+    }
+
+    @PutMapping("")
+    public void update(@RequestBody Map<String, Object> params) {
+        writingService.update(params);
+    }
+
+    @DeleteMapping("")
+    public void delete(@RequestBody Map<String, Object> params) {
+        writingService.delete(params);
     }
 }
+

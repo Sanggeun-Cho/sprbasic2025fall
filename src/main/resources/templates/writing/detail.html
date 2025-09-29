@@ -14,6 +14,9 @@ Detail!!
   content : <input type="text" id="input_content"/> <br/>
 </div>
 
+<button onclick="update_writing()">수정하기</button>
+<button onclick="delete_writing()">삭제하기</button>
+
 <!--<button onclick="detail_writing()">등록하기</button>-->
 <script>
     let tempHref = location.href; // 현재 주소값
@@ -34,6 +37,7 @@ Detail!!
     // alert(tempId);
 
     $(function(){
+        // 페이지 뜨자마자 실행
         detail_writing();
     })
 
@@ -41,13 +45,13 @@ Detail!!
     // alert("등록이 시작됩니다!");
 
     $.ajax({
-      url: '/api/writing/detail',
+      url: '/api/writing',
       method: 'GET',
       data : {
         id : tempId
       },
-      dataType : "json",
-      contentType:"application/json",
+      // dataType : "json",
+      // contentType:"application/json",
       success: function (data, status, xhr) {
         alert("data : : " + JSON.stringify(data));
 
@@ -67,6 +71,46 @@ Detail!!
       }
     });
   }
+    function update_writing(){
+        // alert("등록이 시작됩니다!");
+
+        $.ajax({
+            url: '/api/writing',
+            method: 'PUT',
+            data : JSON.stringify({
+                id : $("#input_id").val()
+                ,title: $("#input_title").val() // value를 찾아달라
+                , content: $("#input_content").val()
+            }),
+            contentType:"application/json",
+            success: function (data, status, xhr) {
+            },
+            error: function (data, status, err) {
+                alert("error :" + JSON.stringify(data));
+            },
+            complete: function () {
+            }
+        });
+    }
+    function delete_writing(){
+        // alert("등록이 시작됩니다!");
+
+        $.ajax({
+            url: '/api/writing',
+            method: 'DELETE',
+            data : JSON.stringify({
+                id : $("#input_id").val()
+            }),
+            contentType:"application/json",
+            success: function (data, status, xhr) {
+            },
+            error: function (data, status, err) {
+                alert("error :" + JSON.stringify(data));
+            },
+            complete: function () {
+            }
+        });
+    }
 </script>
 
 </body>
