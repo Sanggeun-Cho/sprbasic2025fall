@@ -5,17 +5,16 @@ import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 
-@RequestMapping("/writing")
+@RequestMapping("/board")
 @Controller
-
-public class WritingPageController {
+public class BoardPageController {
     @GetMapping("/{page}")
     public String page(@PathVariable String page) {
-        return "writing/" + page;
+        return "board/" + page;
     }
 
     @GetMapping("/{page}/{id}")
     public String page2(@PathVariable String page, @PathVariable String id) {
-        return "writing/" + page;
+        return "board/" + page;
     }
 }

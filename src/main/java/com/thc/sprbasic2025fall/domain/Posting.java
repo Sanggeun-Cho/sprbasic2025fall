@@ -1,5 +1,6 @@
 package com.thc.sprbasic2025fall.domain;
 
+import com.thc.sprbasic2025fall.dto.defaultDto;
 import com.thc.sprbasic2025fall.dto.postingDto;
 import jakarta.persistence.Entity;
 import jakarta.persistence.GeneratedValue;
@@ -13,40 +14,27 @@ import org.springframework.data.annotation.LastModifiedDate;
 
 import java.time.LocalDateTime;
 
-@AllArgsConstructor
 @Getter
 @Entity
-public class Posting {
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @Id
-    Long id;
-
-    @Setter
-    Boolean deleted;
-    @Setter @CreatedDate
-    LocalDateTime createdAt;
-    @Setter @LastModifiedDate
-    LocalDateTime modifiedAt;
-
+public class Posting extends AuditingFields {
     @Setter
     String title;
     @Setter
     String content;
 
     protected Posting() {}
-    private Posting(Boolean deleted, String title, String content) {
-        this.deleted = deleted;
+    private Posting(String title, String content) {
         this.title = title;
         this.content = content;
     }
 
     // 접근 가능 메서드
     public static Posting of(String title, String content) {
-        return new Posting(false, title, content);
+        return new Posting(title, content);
     }
 
-    public postingDto.CreateResDto toCreateResDto(){
-        return postingDto.CreateResDto.builder()
+    public defaultDto.CreateResDto toCreateResDto(){
+        return defaultDto.CreateResDto.builder()
                 .id(getId())
                 .build();
     }

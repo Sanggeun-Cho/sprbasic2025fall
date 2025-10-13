@@ -1,6 +1,7 @@
 package com.thc.sprbasic2025fall.service;
 
 import com.thc.sprbasic2025fall.domain.Posting;
+import com.thc.sprbasic2025fall.dto.defaultDto;
 import com.thc.sprbasic2025fall.dto.postingDto;
 import org.springframework.stereotype.Service;
 
@@ -11,7 +12,7 @@ import java.util.Map;
 
 public interface PostingService {
     // create
-    postingDto.CreateResDto create(postingDto.CreateReqDto param);
+    defaultDto.CreateResDto create(postingDto.CreateReqDto param);
 
     // update
     void update(postingDto.UpdateReqDto param);
@@ -20,7 +21,7 @@ public interface PostingService {
     void delete(postingDto.UpdateReqDto id);
 
     // detail
-    postingDto.DetailResDto detail(postingDto.DetailReqDto id);
+    postingDto.DetailResDto detail(defaultDto.DetailReqDto id);
 
     // list
     List<postingDto.DetailResDto> list(postingDto.ListReqDto param);

@@ -1,6 +1,7 @@
 package com.thc.sprbasic2025fall.service.impl;
 
 import com.thc.sprbasic2025fall.domain.Posting;
+import com.thc.sprbasic2025fall.dto.defaultDto;
 import com.thc.sprbasic2025fall.dto.postingDto;
 import com.thc.sprbasic2025fall.repository.PostingRepository;
 import com.thc.sprbasic2025fall.service.PostingService;
@@ -18,7 +19,7 @@ public class PostingServiceImpl implements PostingService {
     final PostingRepository postingRepository;
 
     @Override
-    public postingDto.CreateResDto create(postingDto.CreateReqDto param) {
+    public defaultDto.CreateResDto create(postingDto.CreateReqDto param) {
         return postingRepository.save(param.toEntity()).toCreateResDto();
     }
 
@@ -38,7 +39,7 @@ public class PostingServiceImpl implements PostingService {
                 .build());
     }
 
-    public postingDto.DetailResDto get(postingDto.DetailReqDto param) {
+    public postingDto.DetailResDto get(defaultDto.DetailReqDto param) {
         Posting posting = postingRepository.findById(param.getId())
                 .orElseThrow(() -> new RuntimeException("no data"));
 
@@ -51,7 +52,7 @@ public class PostingServiceImpl implements PostingService {
     }
 
     @Override
-    public postingDto.DetailResDto detail(postingDto.DetailReqDto param) {
+    public postingDto.DetailResDto detail(defaultDto.DetailReqDto param) {
         return get(param);
     }
 
@@ -63,7 +64,7 @@ public class PostingServiceImpl implements PostingService {
         for(Posting posting : postings){
             if(param.getDeleted() != null){
                 if(posting.getDeleted() == param.getDeleted()){
-                    list.add(get(postingDto.DetailReqDto.builder()
+                    list.add(get(defaultDto.DetailReqDto.builder()
                             .id(posting.getId())
                             .build()));
                 }
