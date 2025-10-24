@@ -1,0 +1,91 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>detail posting</title>
+  <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+</head>
+<body>
+
+<div>
+    deleted : <input type="checkbox" id="input_deleted"/><br/>
+  id : <input type="text" id="input_id"/> <br/>
+  name : <input type="text" id="input_name"/> <br/>
+  email : <input type="text" id="input_email"/> <br/>
+    department : <input type="text" id="input_department"/> <br/>
+</div>
+
+<button onclick="update_user()">수정하기</button>
+<button onclick="delete_user()">삭제하기</button>
+
+<script>
+  let tempHref = location.href; // 현재 주소값
+
+  let tempOrder = tempHref.lastIndexOf("/");
+  let tempId = tempHref.substring(tempOrder + 1);
+
+  $(function(){
+    detail_user();
+  })
+
+  function detail_user(){
+    $.ajax({
+      url: '/api/user',
+      method: 'GET',
+      data : {
+        id : tempId
+      },
+      dataType : "json",
+      success: function (data, status, xhr) {
+        $("#input_deleted").prop("checked", data["deleted"]);
+        $("#input_id").val(data["id"]);
+        $("#input_name").val(data["name"]);
+        $("#input_email").val(data["email"]);
+        $("#input_department").val(data["department"]);
+      },
+      error: function (data, status, err) {
+        alert("error :" + JSON.stringify(data));
+      },
+      complete: function () {
+      }
+    });
+  }
+  function update_user(){
+    $.ajax({
+      url: '/api/user',
+      method: 'PUT',
+      data : JSON.stringify({
+        id : $("#input_id").val()
+        , email: $("#input_email").val()
+          , department: $("#input_department").val()
+      }),
+      contentType:"application/json",
+      success: function (data, status, xhr) {
+      },
+      error: function (data, status, err) {
+        alert("error :" + JSON.stringify(data));
+      },
+      complete: function () {
+      }
+    });
+  }
+  function delete_user(){
+    $.ajax({
+      url: '/api/user',
+      method: 'DELETE',
+      data : JSON.stringify({
+          id : $("#input_id").val()
+      }),
+      contentType:"application/json",
+      success: function (data, status, xhr) {
+      },
+      error: function (data, status, err) {
+        alert("error :" + JSON.stringify(data));
+      },
+      complete: function () {
+      }
+    });
+  }
+</script>
+</body>
+</html>
