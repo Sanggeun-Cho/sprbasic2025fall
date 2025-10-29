@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <title>list posting</title>
+    <script src="https://code.jquery.com/jquery-3.7.1.js"></script>
+</head>
+<body>
+pagedList
+<br/>
+삭제 : <select id="input_deleted">
+    <option value="">전체</option>
+    <option value="false">일반</option>
+    <option value="true">삭제</option>
+</select>
+<br/>
+제목 : <input id="input_title">
+<br/>
+호출할 페이지 : <input id="input_callpage">
+<br/>
+한 페이지 당 글 갯수 : <input id="input_perpage">
+
+<div id="div_list"></div>
+<button onclick="list_posting()">목록 조회</button>
+
+<script>
+    function list_posting(){
+        let deleted = $("#input_deleted").val() + "";
+        if(deleted === ""){
+            deleted = null;
+        } else {
+            deleted = (deleted === "true");
+        }
+        $.ajax({
+            url: '/api/posting/pagedList',
+            method: 'GET',
+            data : {
+                deleted : deleted
+                , title : $("#input_title").val()
+                , callpage : $("#input_callpage").val()
+                , perpage : $("#input_perpage").val()
+            },
+            contentType:"application/json",
+            success: function (data, status, xhr) {
+                $("#div_list").html("");
+                alert("data : : " + JSON.stringify(data));
+                let tempList = data["list"];
+                for(let each of tempList){
+                    $("#div_list").append(
+                        `<div onclick="location.href='/posting/detail/${each.id}';">${each.title} : ${each.content}</div>`
+                    )
+                }
+            },
+            error: function (data, status, err) {
+                alert("error :" + JSON.stringify(data));
+            },
+            complete: function () {
+            }
+        });
+    }
+</script>
+</body>
+</html>

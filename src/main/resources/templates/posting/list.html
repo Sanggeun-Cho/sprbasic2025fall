@@ -7,7 +7,14 @@
 </head>
 <body>
 list
-<input type="checkbox" id="input_deleted"/>
+<br/>
+삭제 : <select id="input_deleted">
+    <option value="">전체</option>
+    <option value="false">일반</option>
+    <option value="true">삭제</option>
+</select>
+<br/>
+제목 : <input id="input_title">
 <div id="div_list"></div>
 <button onclick="list_posting()">목록조회</button>
 
@@ -16,11 +23,18 @@ list
     // list_posting();
   });
   function list_posting(){
+      let deleted = $("#input_deleted").val() + "";
+      if(deleted === ""){
+          deleted = null;
+      } else {
+          deleted = (deleted === "true");
+      }
     $.ajax({
       url: '/api/posting/list',
       method: 'GET',
       data : {
-          deleted : $("#input_deleted").prop("checked")
+          deleted : deleted
+          , title : $("#input_title").val()
       },
       contentType:"application/json",
       success: function (data, status, xhr) {

@@ -49,4 +49,9 @@ public class PostingRestController {
     public ResponseEntity<List<postingDto.DetailResDto>> list(postingDto.ListReqDto param) {
         return ResponseEntity.ok(postingService.list(param));
     }
+
+    @GetMapping("/pagedList")
+    public ResponseEntity<defaultDto.PagedListResDto> pagedList(postingDto.PagedListReqDto param) {
+        return ResponseEntity.ok(postingService.pagedList(param));
+    }
 }

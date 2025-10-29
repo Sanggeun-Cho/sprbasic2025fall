@@ -25,4 +25,7 @@ public interface PostingService {
 
     // list
     List<postingDto.DetailResDto> list(postingDto.ListReqDto param);
+
+    // pagedList
+    defaultDto.PagedListResDto pagedList(postingDto.PagedListReqDto param);
 }

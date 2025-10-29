@@ -31,4 +31,9 @@ public class postingDto {
     public static class ListReqDto extends defaultDto.ListReqDto{
         String title;
     }
+
+    @Getter @Setter @AllArgsConstructor @NoArgsConstructor @SuperBuilder
+    public static class PagedListReqDto extends defaultDto.PagedListReqDto{
+        String title;
+    }
 }
