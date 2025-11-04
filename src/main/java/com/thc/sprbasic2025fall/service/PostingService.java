@@ -28,4 +28,7 @@ public interface PostingService {
 
     // pagedList
     defaultDto.PagedListResDto pagedList(postingDto.PagedListReqDto param);
+
+    // scrollList
+    List<postingDto.DetailResDto> scrollList(postingDto.ScrollListReqDto param);
 }
