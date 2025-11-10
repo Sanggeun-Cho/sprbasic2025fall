@@ -1,8 +1,17 @@
 package com.thc.sprbasic2025fall.Controller.page;
 
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
+import org.apache.commons.io.IOUtils;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
-import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.util.FileCopyUtils;
+import org.springframework.web.bind.annotation.*;
+
+import java.io.*;
+import java.net.URLConnection;
+import java.net.URLEncoder;
+import java.util.Map;
 
 // 스프링부트에게 컨트롤러임을 알리기 위한 어노테이션 -> 알아서 에러 등도 잡아줌
 @Controller
@@ -16,30 +25,52 @@ public class DefaultPageController {
         return "index"; // PATH : src/resources/templates/index.html
     }
 
-    @RequestMapping("/add")
-    public String add(int a, int b, Model model){ // MVC의 형태, View에 맞추어 Model을 돌려주는 것
-        // 파라미터 받는 방법
-        // ~~~?key1=value1&key2=value2
-        // 없는 파라미터를 선언하면 알아서 무시
-        System.out.println("DefaultPageController.add()");
-        System.out.println("a : " + a);
-        System.out.println("b : " + b);
+    @ResponseBody
+    @RequestMapping(value = "image/{file_name:.+}", method = {RequestMethod.GET, RequestMethod.POST})
+    public byte[] getImage(@PathVariable("file_name") String file_name, HttpServletRequest request) throws Exception {
+        byte[] return_byte = null;
+        String path = "C:\\Users\\user\\Downloads\\uploadfile2025\\";
 
-        int sum = a + b;
-        System.out.println("sum : " + sum);
+        // 해당 이미지를 byte[] 형태로 변환
+        File file = new File(path + file_name);
+        InputStream in = null;
 
-        model.addAttribute("sum", sum);
+        try {
+            in = new FileInputStream(file);
+            return_byte = IOUtils.toByteArray(in);
+        } catch (FileNotFoundException e) {
+            e.printStackTrace();
+        } catch (IOException e) {
+            e.printStackTrace();
+        } finally {
+            if(in != null) {
+                try {
+                    in.close();
+                } catch (IOException e) {
 
-        return "add";
+                }
+            }
+        }
+
+        return return_byte;
     }
 
-    @RequestMapping("/addstring")
-    public String addstring(String a, String b, Model model){
-        // 두 개의 글자를 입력 받아서 결합
-        String sum = a + b;
+    @ResponseBody
+    @RequestMapping(value = "/download/{file_name:.+}", method = RequestMethod.GET)
+    public void download(@PathVariable("file_name") String file_name, @RequestParam Map<String, Object> map, HttpServletRequest request, HttpServletResponse response) throws Exception {
+        String path = "C:\\Users\\user\\Downloads\\uploadfile2025\\";
+        File file = new File(path + file_name);
 
-        model.addAttribute("sum", sum);
+        // Response에 설정, 어려울 수 있음
+        String mimeType = URLConnection.guessContentTypeFromName(file_name);
+        if(mimeType == null){
+            mimeType = "application/octet-stream";
+        }
+        response.setContentType(mimeType);
+        response.setContentLength((int) file.length());
+        response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(file.getName(), "utf-8") + "\"");
 
-        return "addstring";
+        InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+        FileCopyUtils.copy(inputStream, response.getOutputStream());
     }
 }
