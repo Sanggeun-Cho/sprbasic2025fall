@@ -1,10 +1,7 @@
 package com.thc.sprbasic2025fall.dto;
 
 import com.thc.sprbasic2025fall.domain.User;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.Setter;
+import lombok.*;
 import lombok.experimental.SuperBuilder;
 
 public class UserDto {
@@ -21,11 +18,13 @@ public class UserDto {
         String username;
         String password;
         String name;
+        String nick;
         String phone;
+        String birth;
         String gender;
 
         public User toEntity(){
-            return User.of(getUsername(), getPassword(), getName(), getPhone(), getGender());
+            return User.of(getUsername(), getPassword(), getName(), getNick(), getPhone(), getBirth(), getGender());
         }
     }
 
@@ -33,15 +32,18 @@ public class UserDto {
     public static class UpdateReqDto extends defaultDto.UpdateReqDto {
         String password;
         String name;
+        String nick;
         String phone;
-        String gender;
+        String birth;
     }
 
     @Getter @Setter @NoArgsConstructor @AllArgsConstructor @SuperBuilder
     public static class DetailResDto extends defaultDto.DetailResDto {
         String username;
         String name;
+        String nick;
         String phone;
+        String birth;
         String gender;
     }
 
@@ -50,7 +52,16 @@ public class UserDto {
         /**
          * 검색 기능 구현을 위한 Request
          */
-        String name;
+        String phone;
+    }
+
+    @Getter @Setter @NoArgsConstructor @AllArgsConstructor @SuperBuilder
+    public static class PagedListReqDto extends defaultDto.PagedListResDto {
+        String phone;
+    }
+
+    @Getter @Setter @NoArgsConstructor @AllArgsConstructor @SuperBuilder
+    public static class ScrollListReqDto extends defaultDto.ScrollListReqDto {
         String phone;
     }
 }

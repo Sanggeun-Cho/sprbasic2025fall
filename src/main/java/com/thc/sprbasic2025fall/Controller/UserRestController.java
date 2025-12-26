@@ -2,6 +2,7 @@ package com.thc.sprbasic2025fall.Controller;
 
 import com.thc.sprbasic2025fall.dto.UserDto;
 import com.thc.sprbasic2025fall.dto.defaultDto;
+import com.thc.sprbasic2025fall.dto.postingDto;
 import com.thc.sprbasic2025fall.service.UserService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -46,5 +47,15 @@ public class UserRestController {
     @GetMapping("/list")
     public ResponseEntity<List<UserDto.DetailResDto>> list(UserDto.ListReqDto param){
         return ResponseEntity.ok(userService.list(param));
+    }
+
+    @GetMapping("/pagedList")
+    public ResponseEntity<defaultDto.PagedListResDto> pagedList(UserDto.PagedListReqDto param){
+        return ResponseEntity.ok(userService.pagedList(param));
+    }
+
+    @GetMapping("/scrollList")
+    public ResponseEntity<defaultDto.PagedListResDto> pagedList(UserDto.PagedListReqDto param){
+        return ResponseEntity.ok(userService.scrollList(param));
     }
 }

@@ -7,33 +7,44 @@ import jakarta.persistence.Entity;
 import lombok.Getter;
 import lombok.Setter;
 
-@Entity @Getter @Setter
+@Entity @Getter
 public class User extends AuditingFields {
+    @Setter
     @Column(nullable = false, unique = true)
-    String username; // 유저 ID로 활용
+    String username;
 
-    // 비밀번호
+    @Setter
+    @Column(nullable = false)
     String password;
 
-    // 유저 이름
+    @Setter
     String name;
 
-    // 유저 연락처
+    @Setter
+    @Column(nullable = false, unique = true)
+    String nick;
+
+    @Setter
     String phone;
 
-    // 유저 성별
+    @Setter
+    String birth;
+
+    @Setter
     String gender;
 
     protected User(){}
-    private User(String username, String password, String name, String phone, String gender) {
+    private User(String username, String password, String name, String nick, String phone, String birth, String gender) {
         this.username = username;
         this.password = password;
         this.name = name;
+        this.nick = nick;
         this.phone = phone;
+        this.birth = birth;
         this.gender = gender;
     }
-    public static User of(String username, String password, String name, String phone, String gender) {
-        return new User(username, password, name, phone, gender);
+    public static User of(String username, String password, String name, String nick, String phone, String birth, String gender) {
+        return new User(username, password, name, nick, phone, birth, gender);
     }
 
     public void update(UserDto.UpdateReqDto param){
@@ -45,6 +56,9 @@ public class User extends AuditingFields {
         }
         if(param.getName() != null) {
             setName(param.getName());
+        }
+        if(param.getNick() != null) {
+            setNick(param.getNick());
         }
         if(param.getPhone() != null) {
             setPhone(param.getPhone());

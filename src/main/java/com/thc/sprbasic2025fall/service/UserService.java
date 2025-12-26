@@ -19,4 +19,8 @@ public interface UserService {
     UserDto.DetailResDto detail(defaultDto.DetailReqDto param);
 
     List<UserDto.DetailResDto> list(UserDto.ListReqDto param);
+
+    defaultDto.PagedListResDto pagedList(UserDto.PagedListReqDto param);
+
+    List<UserDto.DetailResDto> scrollList(UserDto.ScrollListReqDto param);
 }

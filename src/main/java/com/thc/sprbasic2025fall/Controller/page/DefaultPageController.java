@@ -61,16 +61,16 @@ public class DefaultPageController {
         String path = "C:\\Users\\user\\Downloads\\uploadfile2025\\";
         File file = new File(path + file_name);
 
-        // Response에 설정, 어려울 수 있음
-        String mimeType = URLConnection.guessContentTypeFromName(file_name);
-        if(mimeType == null){
-            mimeType = "application/octet-stream";
-        }
-        response.setContentType(mimeType);
-        response.setContentLength((int) file.length());
-        response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(file.getName(), "utf-8") + "\"");
+    // Response에 설정, 어려울 수 있음
+    String mimeType = URLConnection.guessContentTypeFromName(file_name);
+    if(mimeType == null){
+        mimeType = "application/octet-stream";
+    }
+    response.setContentType(mimeType);
+    response.setContentLength((int) file.length());
+    response.setHeader("Content-Disposition", "attachment; filename=\"" + URLEncoder.encode(file.getName(), "utf-8") + "\"");
 
-        InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
-        FileCopyUtils.copy(inputStream, response.getOutputStream());
+    InputStream inputStream = new BufferedInputStream(new FileInputStream(file));
+    FileCopyUtils.copy(inputStream, response.getOutputStream());
     }
 }

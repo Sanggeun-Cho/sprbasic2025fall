@@ -3,16 +3,8 @@ package com.thc.sprbasic2025fall.domain;
 import com.thc.sprbasic2025fall.dto.defaultDto;
 import com.thc.sprbasic2025fall.dto.postingDto;
 import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.Setter;
-import org.springframework.data.annotation.CreatedDate;
-import org.springframework.data.annotation.LastModifiedDate;
-
-import java.time.LocalDateTime;
 
 @Getter
 @Entity
