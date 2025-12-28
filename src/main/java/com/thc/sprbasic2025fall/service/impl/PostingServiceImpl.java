@@ -1,10 +1,12 @@
 package com.thc.sprbasic2025fall.service.impl;
 
 import com.thc.sprbasic2025fall.domain.Posting;
+import com.thc.sprbasic2025fall.dto.PostimgDto;
 import com.thc.sprbasic2025fall.dto.defaultDto;
 import com.thc.sprbasic2025fall.dto.postingDto;
 import com.thc.sprbasic2025fall.mapper.PostingMapper;
 import com.thc.sprbasic2025fall.repository.PostingRepository;
+import com.thc.sprbasic2025fall.service.PostimgService;
 import com.thc.sprbasic2025fall.service.PostingService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
@@ -19,10 +21,21 @@ import java.util.Map;
 public class PostingServiceImpl implements PostingService {
     final PostingRepository postingRepository;
     final PostingMapper postingMapper;
+    final PostimgService postimgService;
 
     @Override
     public defaultDto.CreateResDto create(postingDto.CreateReqDto param) {
-        return postingRepository.save(param.toEntity()).toCreateResDto();
+        if(param.getImgs() != null && !param.getImgs().isEmpty()){
+            param.setImg(param.getImgs().get(0));
+        }
+
+        defaultDto.CreateResDto res = postingRepository.save(param.toEntity()).toCreateResDto();
+
+        for(String img : param.getImgs()){
+            postimgService.create(PostimgDto.CreateReqDto.builder().postingId(res.getId()).img(img).build());
+        }
+
+        return res;
     }
 
     @Override
@@ -43,6 +56,8 @@ public class PostingServiceImpl implements PostingService {
 
     public postingDto.DetailResDto get(defaultDto.DetailReqDto param) {
         postingDto.DetailResDto res = postingMapper.detail(param.getId());
+        System.out.println("res??? : " + res);
+        res.setImgs(postimgService.list(PostimgDto.ListReqDto.builder().deleted(false).postingId(res.getId()).build()));
 
         return res;
     }

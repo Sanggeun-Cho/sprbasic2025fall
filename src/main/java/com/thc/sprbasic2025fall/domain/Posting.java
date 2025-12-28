@@ -10,19 +10,25 @@ import lombok.Setter;
 @Entity
 public class Posting extends AuditingFields {
     @Setter
+    Long userId;
+    @Setter
     String title;
     @Setter
     String content;
+    @Setter
+    String img;
 
     protected Posting() {}
-    private Posting(String title, String content) {
+    private Posting(Long userId, String title, String content, String img) {
+        this.userId = userId;
         this.title = title;
         this.content = content;
+        this.img = img;
     }
 
     // 접근 가능 메서드
-    public static Posting of(String title, String content) {
-        return new Posting(title, content);
+    public static Posting of(Long userId, String title, String content, String img) {
+        return new Posting(userId, title, content, img);
     }
 
     public defaultDto.CreateResDto toCreateResDto(){
@@ -40,6 +46,9 @@ public class Posting extends AuditingFields {
         }
         if(param.getContent() != null) {
             setContent(param.getContent());
+        }
+        if(param.getImg() != null) {
+            setImg(param.getImg());
         }
     }
 }

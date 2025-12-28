@@ -7,41 +7,36 @@
 </head>
 <body>
 pagedList
-<br/>
+<!--<input type="checkbox" id="input_deleted"/>-->
+<br />
 삭제 : <select id="input_deleted">
     <option value="">전체</option>
     <option value="false">일반</option>
     <option value="true">삭제</option>
 </select>
-<br/>
 제목 : <input id="input_title">
-<br/>
 호출할 페이지 : <input id="input_callpage" value="1">
-<br/>
 한 페이지 당 글 갯수 : <input id="input_perpage" value="10">
-<br/>
-정렬 기준 : <select id="input_orderby" onchange="listener_call_page(1)">
+정렬 기준 : <select id="input_orderby" onchange="listener_callpage(1)">
     <option value="id">입력순</option>
     <option value="title">제목 가나다 순</option>
 </select>
-<br/>
-정렬 방향 : <select id="input_orderway" onchange="listener_call_page(1)">
+정렬 방향 : <select id="input_orderway" onchange="listener_callpage(1)">
     <option value="desc">역순</option>
     <option value="asc">정순</option>
 </select>
+
 <br/>
 <div>총 글 갯수 : <span id="font_listcount">-</span></div>
-
 <div id="div_list"></div>
-<button onclick="list_posting()">목록 조회</button>
-
+<button onclick="list_posting()">목록조회</button>
 <div id="div_page"></div>
 
 <script>
     $(function(){
         list_posting();
     });
-    function listener_call_page(obj_callpage){
+    function listener_callpage(obj_callpage){
         $("#input_callpage").val(obj_callpage);
         list_posting();
     }
@@ -53,11 +48,13 @@ pagedList
             deleted = (deleted === "true");
         }
         $.ajax({
+            //
             url: '/api/posting/pagedList',
             method: 'GET',
             data : {
                 deleted : deleted
                 , title : $("#input_title").val()
+
                 , callpage : $("#input_callpage").val()
                 , perpage : $("#input_perpage").val()
                 , orderby : $("#input_orderby").val()
@@ -66,8 +63,7 @@ pagedList
             contentType:"application/json",
             success: function (data, status, xhr) {
                 $("#div_list").html("");
-                // alert("data : : " + JSON.stringify(data));
-
+                //alert("data :" + JSON.stringify(data));
                 let callpage = Number(data["callpage"]);
                 let perpage = Number($("#input_perpage").val());
 
@@ -77,28 +73,35 @@ pagedList
                 for(let each of tempList){
                     tempOrder++;
                     $("#div_list").append(
-                        `<div onclick="location.href='/posting/detail/${each.id}';">${tempOrder} // ${each.title}</div>`
-                    )
+                        `<div onclick="location.href='/posting/detail/${each.id}';">${tempOrder} <img src="${each.img}" style="height:50px;"/>// ${each.title}</div>`
+                    );
                 }
-
-
                 let totalpage = Number(data["totalpage"]);
-                let listcount = Number(data["listcont"]);
+                let listcount = Number(data["listcount"]);
                 $("#font_listcount").text(listcount);
                 $("#input_callpage").text(callpage);
 
                 $("#div_page").html("");
-                $("#div_page").append(`<a href="javacript:listener_call_page('1')"><<</a>`);
-                for(let i = 0; i < 3; i++){
+                $("#div_page").append(`<a href="javascript:listener_callpage('1')"><<</a>`);
+                for(let i=0;i<3;i++){
                     let temppage = callpage - 3 + i;
-                    if(temppage > 0) $("#div_page").append(`<a href="javacript:listener_call_page('${temppage}')">${temppage}</a>`);
+                    if(temppage > 0){
+                        $("#div_page").append(`<a href="javascript:listener_callpage('${temppage}')">${temppage}</a>`);
+                    }
                 }
-                $("#div_page").append(`<a style="font-weight: bold;color: red" href="javacript:listener_call_page('${callpage}')">${callpage}</a>`);
-                for(let i = 0; i < 3; i++){
+
+                $("#div_page").append(`<a style="font-weight: bold;color:red" href="javascript:listener_callpage('${callpage}')">${callpage}</a>`);
+                for(let i=0;i<3;i++){
                     let temppage = callpage + 1 + i;
-                    if(temppage <= totalpage) $("#div_page").append(`<a href="javacript:listener_call_page('${temppage}')">${temppage}</a>`);
+                    if(temppage <= totalpage){
+                        $("#div_page").append(`<a href="javascript:listener_callpage('${temppage}')">${temppage}</a>`);
+                    }
                 }
-                $("#div_page").append(`<a href="javacript:listener_call_page('${totalpage}')">>></a>`);
+
+                $("#div_page").append(`<a href="javascript:listener_callpage('${totalpage}')">>></a>`);
+
+
+
             },
             error: function (data, status, err) {
                 alert("error :" + JSON.stringify(data));
