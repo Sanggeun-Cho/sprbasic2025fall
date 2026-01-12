@@ -20,7 +20,7 @@
     </sql>
 
     <select id="list" parameterType="hashMap"
-            resultType="com.thc.sprbasic2025fall.dto.postimgDto$DetailResDto">
+            resultType="com.thc.sprbasic2025fall.dto.PostimgDto$DetailResDto">
         SELECT postimg.id
         FROM postimg
         <include refid="commonWhere"/>
@@ -46,7 +46,7 @@
         <include refid="commonWhere"/>
     </select>
 
-    <select id="scrollList" parameterType="hashMap" resultType="com.thc.sprbasic2025fall.dto.postimgDto$DetailResDto">
+    <select id="scrollList" parameterType="hashMap" resultType="com.thc.sprbasic2025fall.dto.PostimgDto$DetailResDto">
         SELECT postimg.id
         FROM postimg
         <include refid="commonWhere"/>

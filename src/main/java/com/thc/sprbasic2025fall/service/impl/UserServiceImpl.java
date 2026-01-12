@@ -74,7 +74,6 @@ public class UserServiceImpl implements UserService {
         return get(param);
     }
 
-    @Override
     public List<UserDto.DetailResDto> addlist(List<UserDto.DetailResDto> list){
         List<UserDto.DetailResDto> newList = new ArrayList<>();
         for(UserDto.DetailResDto user : list){

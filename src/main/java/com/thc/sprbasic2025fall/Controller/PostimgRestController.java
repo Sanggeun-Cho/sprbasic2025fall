@@ -1,7 +1,7 @@
-package com.thc.sprbasic2025fall.Controller.page;
+package com.thc.sprbasic2025fall.Controller;
 
-import com.thc.sprbasic2025fall.dto.PostimgDto;
 import com.thc.sprbasic2025fall.dto.defaultDto;
+import com.thc.sprbasic2025fall.dto.PostimgDto;
 import com.thc.sprbasic2025fall.service.PostimgService;
 import lombok.RequiredArgsConstructor;
 import org.springframework.http.ResponseEntity;
@@ -12,7 +12,7 @@ import java.util.List;
 @RequiredArgsConstructor
 @RequestMapping("/api/postimg")
 @RestController
-class PostimgRestController {
+public class PostimgRestController {
 
     final PostimgService postimgService;
 

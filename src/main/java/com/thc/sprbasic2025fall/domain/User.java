@@ -63,9 +63,6 @@ public class User extends AuditingFields {
         if(param.getPhone() != null) {
             setPhone(param.getPhone());
         }
-        if(param.getGender() != null) {
-            setGender(param.getGender());
-        }
     }
 
     public defaultDto.CreateResDto toCreateResDto(){

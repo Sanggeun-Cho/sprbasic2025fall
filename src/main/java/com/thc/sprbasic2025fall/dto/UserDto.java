@@ -56,7 +56,7 @@ public class UserDto {
     }
 
     @Getter @Setter @NoArgsConstructor @AllArgsConstructor @SuperBuilder
-    public static class PagedListReqDto extends defaultDto.PagedListResDto {
+    public static class PagedListReqDto extends defaultDto.PagedListReqDto {
         String phone;
     }
 
